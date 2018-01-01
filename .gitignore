@@ -1,0 +1,4 @@
+config.R
+.httr-oauth
+opinion-lexicon-English/positive-words.txt
+opinion-lexicon-English/negative-words.txt
