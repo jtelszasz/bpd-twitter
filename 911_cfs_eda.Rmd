@@ -1,0 +1,54 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(RSocrata)
+```
+
+
+```{r}
+endpoint <- "https://data.baltimorecity.gov/resource/m8g9-abgb.json"
+```
+
+```{r}
+df <- read.socrata(endpoint)
+
+cfs.2018 <- df %>%  filter(calldatetime >= "2018-01-01")
+```
+
+```{r}
+nrow(cfs.2018)
+```
+
+```{r}
+glimpse(cfs.2018)
+```
+
+```{r}
+cfs.2018 %>% 
+  count(priority) %>%
+  mutate(pct = round( 100* n / sum(n), 1)) %>%
+  arrange(desc(n))
+```
+
+```{r}
+cfs.2018 %>% 
+  count(priority, description) %>%
+  mutate(pct = round( 100* n / sum(n), 1)) %>%
+  arrange(desc(n)) %>%
+  mutate(cum = cumsum(pct),
+         rown = row_number())
+```
+
+```{r}
+cfs.2018 %>% 
+  filter(priority == "Non-Emergency") %>%
+  count(description) %>%
+  mutate(pct = round(100 * n / sum(n), 1)) %>%
+  arrange(desc(n))
+```
+
+

@@ -1,17 +1,19 @@
 
-library(twitteR)
-library(ROAuth)
 library(tidyverse)
-require(stringr)
+library(stringr)
+library(rtweet)
 
-source("config.R")
+source("R/config.R")
 
 # Set API Keys
 
-setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
+#setup_twitter_oauth(api_key, api_secret, access_token, access_token_secret)
+twitter_token <- create_token(app_name, api_key, api_secret)
 
 # Get Tweets about BPD
-tweets <- searchTwitter('baltimore police', n=5000)
+tweets <- search_tweets('RecruitmentBPD', n=5000)
+
+recruitmentBPD <- get_timeline(user = "RecruitmentBPD", n = 5000)
 
 tweets.df <- twListToDF(tweets)
 

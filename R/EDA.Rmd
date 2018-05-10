@@ -1,0 +1,72 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(stringr)
+library(rtweet)
+library(lubridate)
+
+source("R/config.R")
+```
+
+```{r}
+#twitter_token <- create_token(app_name, api_key, api_secret)
+```
+
+
+```{r}
+RecruitmentBPD <- get_timeline(user = "RecruitmentBPD", n = 5000)
+BaltimorePolice <- get_timeline(user = "BaltimorePolice", n = 5000)
+```
+
+```{r}
+recruitment <- RecruitmentBPD %>%
+  mutate_at("created_at", as.Date)
+```
+
+# @RecruitmentBPD
+
+First tweet:
+
+```{r}
+min(recruitment$created_at)
+```
+
+Latest tweet:
+
+```{r}
+max(recruitment$created_at)
+```
+
+
+```{r}
+recruitment %>%
+  mutate(day.of.tweet = weekdays(created_at)) %>%
+  count(day.of.tweet) 
+```
+
+```{r}
+recruitment %>%
+  summarise(mean.favs = mean(favorite_count),
+            mean.retweets = mean(retweet_count))
+```
+83 retweets per tweet is really high, are there outliers?
+
+```{r}
+recruitment %>%
+  ggplot(aes(retweet_count)) +
+  geom_histogram()
+```
+
+Maybe it's the retweets?
+
+```{r}
+recruitment %>%
+  ggplot(aes(retweet_count, fill = is_retweet)) +
+  geom_histogram()
+```
+
