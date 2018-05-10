@@ -1,4 +1,4 @@
-# Sentiment Analysis of Tweets about Baltimore Police Department
+# Twitter Analysis: Baltimore Police Department
 
 Based on [R-bloggers post](https://www.r-bloggers.com/how-to-use-r-to-scrape-tweets-super-tuesday-2016/).
 
